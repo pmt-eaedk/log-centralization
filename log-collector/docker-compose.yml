@@ -1,0 +1,28 @@
+# docker-compose.yml
+
+# version: '3.7'
+
+services:
+  filebeat:
+    # Build the Docker image from the context specified
+    build:
+      context: ./filebeat
+    # Container name for easy identification, fetched from environment variable
+    container_name: ${CONTAINER_NAME}
+    # Mount the log directory from the host to the container, paths are service name dependent
+    volumes:
+      - ${HOST_LOG_PATH}:${CONTAINER_LOG_PATH}
+      # Persist the Filebeat registry to avoid log duplication on container recreation
+      - filebeat-data:/usr/share/filebeat/data-${CONTAINER_NAME}
+    # Environment variables passed to the container
+    environment:
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      - SERVICE_NAME=${SERVICE_NAME}
+      - LOG_PATH=${LOG_PATH}
+
+# Define the volume to persist Filebeat data
+volumes:
+  filebeat-data:
+    driver: local

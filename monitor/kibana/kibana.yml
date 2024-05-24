@@ -1,0 +1,14 @@
+server.host: "0.0.0.0"
+# server.publicBaseUrl: "https://your-kibana-domain.com"
+server.shutdownTimeout: "5s"
+elasticsearch.hosts: "${ELASTICSEARCH_URL}"
+monitoring.ui.container.elasticsearch.enabled: true
+elasticsearch.ssl.verificationMode: "none"
+
+# elasticsearch.serviceAccountToken: "${ELASTICSEARCH_SERVICE_ACCOUNT_TOKEN}"
+
+xpack.encryptedSavedObjects.encryptionKey: "${ENCRYPTED_SAVED_OBJECTS_ENCRYPTION_KEY}"
+xpack.reporting.encryptionKey: "${REPORTING_ENCRYPTION_KEY}"
+xpack.security.encryptionKey: "${SECURITY_ENCRYPTION_KEY}"
+
+xpack.reporting.roles.enabled: false

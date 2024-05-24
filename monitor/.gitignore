@@ -1,0 +1,10 @@
+venv/
+**checkpoint*
+.DS_Store
+__pycache__/
+.env
+command.txt
+setup.sh
+elastic_pass*
+run.sh
+.env_

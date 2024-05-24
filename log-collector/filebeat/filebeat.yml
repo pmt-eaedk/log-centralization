@@ -1,0 +1,36 @@
+# filebeat.yml
+
+# The name of the service, fetched from the environment variable
+name: "${SERVICE_NAME}"
+
+filebeat.inputs:
+  # Input configuration for log files
+  - type: log
+    enabled: true
+    # Path to log files, using the environment variable for flexibility
+    paths:
+      - ${LOG_PATH} # This pattern matches all .log files in the directory and subdirectories
+    fields:
+      # Service field to tag the logs
+      service: ${SERVICE_NAME}
+    # Merge custom fields to the root of the event
+    fields_under_root: true
+
+output.elasticsearch:
+  # Elasticsearch hosts, fetched from the environment variable
+  hosts: ["${ELASTICSEARCH_HOST}"]
+  # Username and password for authentication, fetched from environment variables
+  username: "${ELASTICSEARCH_USERNAME}"
+  password: "${ELASTICSEARCH_PASSWORD}"
+  # Disable SSL verification
+  ssl.verification_mode: "none"
+  # Index name in Elasticsearch, using the service name
+  index: "${SERVICE_NAME}"
+
+# Enable Index Lifecycle Management (ILM) and template setup
+setup.ilm.enabled: true
+setup.ilm.overwrite: true
+# setup.template.enabled: true
+# setup.template.name: "${SERVICE_NAME}-template"
+# setup.template.pattern: "${SERVICE_NAME}-*"
+# setup.template.overwrite: true
